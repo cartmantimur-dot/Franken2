@@ -176,7 +176,7 @@ body {
 }
 
 .modal-content {
-  @apply bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 dark:bg-gray-900;
+  @apply bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 dark:bg-gray-900 max-h-[90vh] overflow-y-auto;
 }
 
 /* Toast */
@@ -238,6 +238,7 @@ body {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -253,6 +254,7 @@ body {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -282,7 +284,7 @@ body {
   .sidebar {
     @apply fixed inset-y-0 left-0 z-40 transform -translate-x-full transition-transform duration-300;
   }
-  
+
   .sidebar.open {
     @apply translate-x-0;
   }

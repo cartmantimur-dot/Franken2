@@ -175,6 +175,7 @@ export async function DELETE(
     try {
         const { id } = await params;
 
+        // 1. Get the invoice to be deleted
         const invoice = await prisma.invoice.findUnique({
             where: { id },
         });
@@ -186,15 +187,45 @@ export async function DELETE(
             );
         }
 
-        if (invoice.status !== "Entwurf") {
-            return NextResponse.json(
-                { error: "Nur Entwürfe können gelöscht werden" },
-                { status: 400 }
-            );
-        }
+        // 2. Perform deletion and potential counter reset in a transaction
+        await prisma.$transaction(async (tx) => {
+            // Get current settings to check invoice counter
+            const settings = await tx.settings.findUnique({
+                where: { id: "main" },
+            });
 
-        await prisma.invoice.delete({
-            where: { id },
+            // If the deleted invoice is the LATEST created one (matching invoiceCurrentNumber),
+            // we decrement the counter to reuse the number.
+            if (settings) {
+                const currentNumber = settings.invoiceCurrentNumber;
+                const expectedInvoiceNumber = `${settings.invoicePrefix}-${settings.invoiceYear}-${String(currentNumber).padStart(4, "0")}`;
+
+                if (invoice.invoiceNumber === expectedInvoiceNumber) {
+                    // Determine new counter value (never below 0)
+                    const newCounter_ = currentNumber - 1;
+                    const newCounter = newCounter_ < 0 ? 0 : newCounter_;
+
+                    await tx.settings.update({
+                        where: { id: "main" },
+                        data: { invoiceCurrentNumber: newCounter },
+                    });
+                }
+            }
+
+            // 3. Delete related items first (manual delete for safety)
+            await tx.invoiceItem.deleteMany({
+                where: { invoiceId: id },
+            });
+
+            // Delete Audit Logs
+            await tx.auditLog.deleteMany({
+                where: { invoiceId: id },
+            });
+
+            // 4. Delete the invoice
+            await tx.invoice.delete({
+                where: { id },
+            });
         });
 
         return NextResponse.json({ success: true });

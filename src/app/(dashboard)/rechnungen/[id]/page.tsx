@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, Check, X, Edit2, FileText } from "lucide-react";
+import { ArrowLeft, Download, Check, X, Edit2, FileText, Trash2 } from "lucide-react";
 import Button from "@/components/Button";
 import toast from "react-hot-toast";
 import { generateInvoicePDF } from "@/lib/pdf";
@@ -51,6 +51,8 @@ interface Settings {
     bankName: string | null;
     taxNumber: string | null;
     vatEnabled: boolean;
+    invoicePrefix: string;
+    invoiceYear: number;
 }
 
 export default function RechnungDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -85,6 +87,27 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
             router.push("/rechnungen");
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!invoice) return;
+
+        // Warn user
+        if (!confirm(`ACHTUNG: Rechnung ${invoice.invoiceNumber} wirklich KOMPLETT LÖSCHEN?\n\nDies kann nicht rückgängig gemacht werden!\nDer Rechnungszähler wird nur zurückgesetzt, wenn es die letzte Rechnung war.`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/invoices/${invoice.id}`, { method: "DELETE" });
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.error);
+            }
+            toast.success("Rechnung gelöscht");
+            router.push("/rechnungen");
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Fehler");
         }
     };
 
@@ -220,6 +243,11 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                             Stornieren
                         </Button>
                     )}
+
+                    <Button onClick={handleDelete} className="bg-red-800 hover:bg-red-900 text-white border-red-900">
+                        <Trash2 size={18} />
+                        Löschen
+                    </Button>
                 </div>
             </div>
 

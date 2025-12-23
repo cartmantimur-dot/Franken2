@@ -310,7 +310,7 @@ export default function EinstellungenPage() {
                             <div className="p-4 bg-amber-50 rounded-lg border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800">
                                 <p className="text-sm text-amber-800 dark:text-amber-200">
                                     <strong>Kleinunternehmer-Regelung aktiv:</strong> Auf allen Rechnungen wird der
-                                    Hinweis "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet." angezeigt.
+                                    Hinweis &quot;Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.&quot; angezeigt.
                                 </p>
                             </div>
                         )}
