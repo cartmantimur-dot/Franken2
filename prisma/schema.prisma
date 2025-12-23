@@ -1,0 +1,162 @@
+// Prisma Schema für Fräulein Franken - Geschenke für dich
+// Datenbank: Neon (Postgres)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Benutzer für Authentifizierung
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Produkte/Warenbestand
+model Product {
+  id            String   @id @default(cuid())
+  sku           String?  @unique
+  name          String
+  description   String?
+  category      String?
+  purchasePrice Decimal  @db.Decimal(10, 2)
+  sellingPrice  Decimal  @db.Decimal(10, 2)
+  stockCurrent  Int      @default(0)
+  stockMinimum  Int      @default(0)
+  location      String?
+  supplier      String?
+  imageUrl      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  stockMovements StockMovement[]
+  invoiceItems   InvoiceItem[]
+}
+
+// Bestandsbewegungen (Log)
+model StockMovement {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int // positiv = Zugang, negativ = Abgang
+  reason    String // "Einkauf", "Verkauf", "Korrektur", "Storno"
+  reference String? // z.B. Rechnungsnummer
+  createdAt DateTime @default(now())
+}
+
+// Kunden
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  address   String
+  zipCode   String
+  city      String
+  country   String   @default("Deutschland")
+  email     String?
+  phone     String?
+  vatId     String? // USt-ID
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  invoices Invoice[]
+}
+
+// Rechnungen
+model Invoice {
+  id            String    @id @default(cuid())
+  invoiceNumber String    @unique
+  invoiceDate   DateTime
+  deliveryDate  DateTime?
+  dueDate       DateTime
+  status        String    @default("Entwurf") // Entwurf, Gesendet, Bezahlt, Storniert
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  discount     Decimal? @db.Decimal(10, 2)
+  shippingCost Decimal? @db.Decimal(10, 2)
+
+  subtotal  Decimal @db.Decimal(10, 2)
+  vatRate   Decimal @default(0) @db.Decimal(5, 2)
+  vatAmount Decimal @default(0) @db.Decimal(10, 2)
+  total     Decimal @db.Decimal(10, 2)
+
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items     InvoiceItem[]
+  auditLogs AuditLog[]
+}
+
+// Rechnungspositionen
+model InvoiceItem {
+  id        String  @id @default(cuid())
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
+
+  title      String
+  quantity   Int
+  unitPrice  Decimal @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+}
+
+// Firmeneinstellungen
+model Settings {
+  id          String  @id @default("main")
+  companyName String  @default("Fräulein Franken – Geschenke für dich")
+  address     String?
+  zipCode     String?
+  city        String?
+  country     String  @default("Deutschland")
+  email       String?
+  phone       String?
+  iban        String?
+  bic         String?
+  bankName    String?
+  taxNumber   String?
+  logoUrl     String?
+
+  // Nummernkreis
+  invoicePrefix        String @default("FF")
+  invoiceYear          Int    @default(2025)
+  invoiceStartNumber   Int    @default(1)
+  invoiceCurrentNumber Int    @default(0)
+
+  // Standard-Fälligkeit in Tagen
+  defaultDueDays Int @default(14)
+
+  // MwSt Einstellung
+  vatEnabled     Boolean @default(false)
+  defaultVatRate Decimal @default(19) @db.Decimal(5, 2)
+
+  updatedAt DateTime @updatedAt
+}
+
+// Audit Log für Änderungen
+model AuditLog {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  action    String // "CREATED", "UPDATED", "STATUS_CHANGED"
+  field     String?
+  oldValue  String?
+  newValue  String?
+  userId    String?
+  createdAt DateTime @default(now())
+}
