@@ -170,7 +170,9 @@ export function generateInvoicePDF(
         custY += 5;
         doc.text(`${invoice.customer.zipCode} ${invoice.customer.city}`, 20, custY);
         custY += 5;
-        doc.text(invoice.customer.country, 20, custY);
+        if (invoice.customer.country && invoice.customer.country !== "Deutschland" && invoice.customer.country !== "-") {
+            doc.text(invoice.customer.country, 20, custY);
+        }
     }
 
     // Right: Dates
@@ -306,7 +308,6 @@ export function generateInvoicePDF(
     doc.setFontSize(12);
     doc.setTextColor(primaryColor);
     doc.text("Vielen Dank für deinen Einkauf!", 20, footerY - 10);
-    doc.text("♥", 20, footerY - 4); // Little heart if supported, otherwise just cute text
 
 
     // Bank info small at bottom
