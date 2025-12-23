@@ -227,7 +227,7 @@ export function generateInvoicePDF(
             cellPadding: 6,
         },
         headStyles: {
-            fillColor: [255, 255, 255],
+            fillColor: false as any, // Transparent to show background
             textColor: primaryColor,
             fontStyle: "bolditalic",
             fontSize: 11,
