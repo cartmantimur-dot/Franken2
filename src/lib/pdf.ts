@@ -71,11 +71,24 @@ export function generateInvoicePDF(
     doc.setFont("times", "normal"); // Serifs for a friendlier/classic interaction
 
     // Colors
-    // Soft Violet/Pinkish theme for "Fräulein Franken"
-    const primaryColor = "#8b5cf6"; // Violet
-    const secondaryColor = "#a78bfa"; // Softer violet
+    // Rose/Pinkish theme for "Fräulein Franken"
+    const primaryColor = "#db2777"; // Rose-600
+    const secondaryColor = "#f472b6"; // Rose-400
     const textColor = "#4b5563"; // Gray-600
     const mutedColor = "#9ca3af"; // Gray-400
+
+    // --- Background Gradient ---
+    // subtle circles/shapes for a playful look
+    doc.setFillColor("#fff1f2"); // Lightest rose
+    doc.rect(0, 0, pageWidth, doc.internal.pageSize.getHeight(), "F");
+
+    // Decorative circles in corners
+    doc.setDrawColor("#fce7f3"); // Rose-100
+    doc.setFillColor("#fce7f3");
+    doc.circle(0, 0, 50, "F");
+    doc.circle(pageWidth, 0, 30, "F");
+    doc.circle(0, doc.internal.pageSize.getHeight(), 40, "F");
+    doc.circle(pageWidth, doc.internal.pageSize.getHeight(), 60, "F");
 
     // Format helpers
     const formatCurrency = (amount: number) => {
