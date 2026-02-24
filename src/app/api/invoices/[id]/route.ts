@@ -198,7 +198,8 @@ export async function DELETE(
             // we decrement the counter to reuse the number.
             if (settings) {
                 const currentNumber = settings.invoiceCurrentNumber;
-                const expectedInvoiceNumber = `${settings.invoicePrefix}-${settings.invoiceYear}-${String(currentNumber).padStart(4, "0")}`;
+                const currentYear = new Date().getFullYear();
+                const expectedInvoiceNumber = `${settings.invoicePrefix}-${currentYear}-${String(currentNumber).padStart(4, "0")}`;
 
                 if (invoice.invoiceNumber === expectedInvoiceNumber) {
                     // Determine new counter value (never below 0)

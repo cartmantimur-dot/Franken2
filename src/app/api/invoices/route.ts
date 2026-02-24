@@ -60,7 +60,8 @@ export async function POST(request: Request) {
 
         // Generate invoice number
         const nextNumber = settings.invoiceCurrentNumber + 1;
-        const invoiceNumber = `${settings.invoicePrefix}-${settings.invoiceYear}-${String(nextNumber).padStart(4, "0")}`;
+        const currentYear = new Date().getFullYear();
+        const invoiceNumber = `${settings.invoicePrefix}-${currentYear}-${String(nextNumber).padStart(4, "0")}`;
 
         // Calculate totals
         let subtotal = validated.items.reduce(

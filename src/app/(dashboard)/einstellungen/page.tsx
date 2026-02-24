@@ -239,14 +239,13 @@ export default function EinstellungenPage() {
                             />
                         </div>
                         <div>
-                            <label className="label">Jahr</label>
+                            <label className="label">Aktuelles Jahr</label>
                             <input
                                 type="number"
-                                value={settings.invoiceYear}
-                                onChange={(e) =>
-                                    setSettings({ ...settings, invoiceYear: parseInt(e.target.value) })
-                                }
-                                className="input"
+                                value={new Date().getFullYear()}
+                                disabled
+                                className="input bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 cursor-not-allowed"
+                                title="Das Jahr wird bei jeder Rechnungserstellung automatisch berechnet"
                             />
                         </div>
                         <div>
@@ -260,7 +259,7 @@ export default function EinstellungenPage() {
                                 className="input"
                             />
                             <p className="text-xs text-gray-500 mt-1">
-                                Nächste Rechnung: {settings.invoicePrefix}-{settings.invoiceYear}-
+                                Nächste Rechnung: {settings.invoicePrefix}-{new Date().getFullYear()}-
                                 {String(settings.invoiceCurrentNumber + 1).padStart(4, "0")}
                             </p>
                         </div>
