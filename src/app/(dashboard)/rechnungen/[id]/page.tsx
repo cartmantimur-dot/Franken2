@@ -179,7 +179,7 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="spinner border-violet-600" />
+                <div className="spinner border-brand-600" />
             </div>
         );
     }
@@ -193,7 +193,7 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                 <div className="flex items-center gap-4">
                     <button
                         onClick={() => router.back()}
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="p-2 rounded-lg hover:bg-ink-100"
                     >
                         <ArrowLeft size={20} />
                     </button>
@@ -204,7 +204,7 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                                 {invoice.status}
                             </span>
                         </div>
-                        <p className="text-gray-500">{invoice.customer.name}</p>
+                        <p className="text-ink-500">{invoice.customer.name}</p>
                     </div>
                 </div>
 
@@ -256,7 +256,7 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                 <div className="lg:col-span-2 space-y-6">
                     {/* Items */}
                     <div className="card">
-                        <h2 className="text-lg font-semibold mb-4">Positionen</h2>
+                        <h2 className="mb-4">Positionen</h2>
                         <div className="table-container">
                             <table className="table">
                                 <thead>
@@ -283,38 +283,38 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                         </div>
 
                         {/* Totals */}
-                        <div className="mt-6 pt-4 border-t dark:border-gray-700">
+                        <div className="mt-6 pt-4 border-t">
                             <div className="max-w-xs ml-auto space-y-2">
                                 {invoice.discount > 0 && (
-                                    <div className="flex justify-between text-gray-600">
+                                    <div className="flex justify-between text-ink-600">
                                         <span>Rabatt</span>
                                         <span>-{formatCurrency(Number(invoice.discount))}</span>
                                     </div>
                                 )}
                                 {invoice.shippingCost > 0 && (
-                                    <div className="flex justify-between text-gray-600">
+                                    <div className="flex justify-between text-ink-600">
                                         <span>Versandkosten</span>
                                         <span>{formatCurrency(Number(invoice.shippingCost))}</span>
                                     </div>
                                 )}
-                                <div className="flex justify-between text-gray-600">
+                                <div className="flex justify-between text-ink-600">
                                     <span>Zwischensumme</span>
                                     <span>{formatCurrency(Number(invoice.subtotal))}</span>
                                 </div>
                                 {settings?.vatEnabled && Number(invoice.vatRate) > 0 && (
-                                    <div className="flex justify-between text-gray-600">
+                                    <div className="flex justify-between text-ink-600">
                                         <span>MwSt. ({invoice.vatRate}%)</span>
                                         <span>{formatCurrency(Number(invoice.vatAmount))}</span>
                                     </div>
                                 )}
-                                <div className="flex justify-between text-xl font-bold pt-2 border-t dark:border-gray-700">
+                                <div className="flex justify-between text-xl font-bold pt-2 border-t">
                                     <span>Gesamt</span>
-                                    <span className="text-violet-600">{formatCurrency(Number(invoice.total))}</span>
+                                    <span className="text-brand-600">{formatCurrency(Number(invoice.total))}</span>
                                 </div>
                             </div>
 
                             {!settings?.vatEnabled && (
-                                <p className="text-sm text-gray-500 italic mt-4 text-right">
+                                <p className="text-sm text-ink-500 italic mt-4 text-right">
                                     Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.
                                 </p>
                             )}
@@ -324,8 +324,8 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                     {/* Notes */}
                     {invoice.notes && (
                         <div className="card">
-                            <h2 className="text-lg font-semibold mb-2">Anmerkungen</h2>
-                            <p className="text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
+                            <h2 className="mb-2">Anmerkungen</h2>
+                            <p className="text-ink-600 whitespace-pre-wrap">
                                 {invoice.notes}
                             </p>
                         </div>
@@ -336,20 +336,20 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
                 <div className="space-y-6">
                     {/* Dates */}
                     <div className="card">
-                        <h2 className="text-lg font-semibold mb-4">Details</h2>
+                        <h2 className="mb-4">Details</h2>
                         <dl className="space-y-3">
                             <div>
-                                <dt className="text-sm text-gray-500">Rechnungsdatum</dt>
+                                <dt className="text-sm text-ink-500">Rechnungsdatum</dt>
                                 <dd className="font-medium">{formatDate(invoice.invoiceDate)}</dd>
                             </div>
                             {invoice.deliveryDate && (
                                 <div>
-                                    <dt className="text-sm text-gray-500">Lieferdatum</dt>
+                                    <dt className="text-sm text-ink-500">Lieferdatum</dt>
                                     <dd className="font-medium">{formatDate(invoice.deliveryDate)}</dd>
                                 </div>
                             )}
                             <div>
-                                <dt className="text-sm text-gray-500">Fälligkeitsdatum</dt>
+                                <dt className="text-sm text-ink-500">Fälligkeitsdatum</dt>
                                 <dd className="font-medium">{formatDate(invoice.dueDate)}</dd>
                             </div>
                         </dl>
@@ -357,9 +357,9 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
 
                     {/* Customer */}
                     <div className="card">
-                        <h2 className="text-lg font-semibold mb-4">Kunde</h2>
-                        <div className="text-gray-600 dark:text-gray-400">
-                            <p className="font-medium text-gray-900 dark:text-white">
+                        <h2 className="mb-4">Kunde</h2>
+                        <div className="text-ink-600">
+                            <p className="font-medium text-ink-900">
                                 {invoice.customer.name}
                             </p>
                             {invoice.customer.company && <p>{invoice.customer.company}</p>}

@@ -9,20 +9,22 @@ export default function ToastProvider() {
             toastOptions={{
                 duration: 4000,
                 style: {
-                    background: "#1f2937",
+                    background: "#27211e",
                     color: "#fff",
-                    borderRadius: "12px",
+                    borderRadius: "14px",
+                    fontSize: "14px",
+                    boxShadow: "0 12px 30px -12px rgb(39 33 30 / 0.45)",
                     padding: "12px 16px",
                 },
                 success: {
                     iconTheme: {
-                        primary: "#10b981",
+                        primary: "#82a786",
                         secondary: "#fff",
                     },
                 },
                 error: {
                     iconTheme: {
-                        primary: "#ef4444",
+                        primary: "#cd7365",
                         secondary: "#fff",
                     },
                 },

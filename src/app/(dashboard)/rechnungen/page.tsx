@@ -113,7 +113,7 @@ export default function RechnungenPage() {
             {/* Filters */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <div className="relative flex-1 max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-400" />
                     <input
                         type="text"
                         placeholder="Suchen nach Nummer, Kunde..."
@@ -136,7 +136,7 @@ export default function RechnungenPage() {
             </div>
 
             {/* Invoices Table */}
-            <div className="table-container bg-white dark:bg-gray-900">
+            <div className="table-container bg-white">
                 <table className="table">
                     <thead>
                         <tr>
@@ -152,13 +152,13 @@ export default function RechnungenPage() {
                     <tbody>
                         {isLoading ? (
                             <tr>
-                                <td colSpan={7} className="text-center py-8 text-gray-500">
+                                <td colSpan={7} className="text-center py-8 text-ink-500">
                                     Laden...
                                 </td>
                             </tr>
                         ) : invoices.length === 0 ? (
                             <tr>
-                                <td colSpan={7} className="text-center py-8 text-gray-500">
+                                <td colSpan={7} className="text-center py-8 text-ink-500">
                                     <FileText className="w-12 h-12 mx-auto mb-2 opacity-50" />
                                     Keine Rechnungen gefunden
                                 </td>
@@ -166,19 +166,19 @@ export default function RechnungenPage() {
                         ) : (
                             invoices.map((invoice) => (
                                 <tr key={invoice.id}>
-                                    <td className="font-medium text-gray-900 dark:text-white">
+                                    <td className="font-medium text-ink-900">
                                         {invoice.invoiceNumber}
                                     </td>
                                     <td>
-                                        <p className="text-gray-900 dark:text-white">{invoice.customer.name}</p>
+                                        <p className="text-ink-900">{invoice.customer.name}</p>
                                         {invoice.customer.company && (
-                                            <p className="text-sm text-gray-500">{invoice.customer.company}</p>
+                                            <p className="text-sm text-ink-500">{invoice.customer.company}</p>
                                         )}
                                     </td>
-                                    <td className="text-gray-600 dark:text-gray-400">
+                                    <td className="text-ink-600">
                                         {formatDate(invoice.invoiceDate)}
                                     </td>
-                                    <td className="text-gray-600 dark:text-gray-400">
+                                    <td className="text-ink-600">
                                         {formatDate(invoice.dueDate)}
                                     </td>
                                     <td>
@@ -186,22 +186,22 @@ export default function RechnungenPage() {
                                             {invoice.status}
                                         </span>
                                     </td>
-                                    <td className="text-right font-semibold text-gray-900 dark:text-white">
+                                    <td className="text-right font-semibold text-ink-900">
                                         {formatCurrency(Number(invoice.total))}
                                     </td>
                                     <td className="text-right">
                                         <div className="flex justify-end gap-1">
                                             <Link
                                                 href={`/rechnungen/${invoice.id}`}
-                                                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                                                className="p-2 rounded-lg hover:bg-ink-100"
                                                 title="Anzeigen"
                                             >
-                                                <Eye size={16} className="text-gray-500" />
+                                                <Eye size={16} className="text-ink-500" />
                                             </Link>
                                             {invoice.status === "Entwurf" && (
                                                 <button
                                                     onClick={() => handleStatusChange(invoice, "finalize")}
-                                                    className="p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                                    className="p-2 rounded-lg hover:bg-blue-50"
                                                     title="Finalisieren"
                                                 >
                                                     <Download size={16} className="text-blue-500" />
@@ -210,7 +210,7 @@ export default function RechnungenPage() {
                                             {invoice.status === "Gesendet" && (
                                                 <button
                                                     onClick={() => handleStatusChange(invoice, "paid")}
-                                                    className="p-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
+                                                    className="p-2 rounded-lg hover:bg-emerald-50"
                                                     title="Als bezahlt markieren"
                                                 >
                                                     <Check size={16} className="text-emerald-500" />
@@ -219,7 +219,7 @@ export default function RechnungenPage() {
                                             {(invoice.status === "Gesendet" || invoice.status === "Bezahlt") && (
                                                 <button
                                                     onClick={() => handleStatusChange(invoice, "cancel")}
-                                                    className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
+                                                    className="p-2 rounded-lg hover:bg-red-50"
                                                     title="Stornieren"
                                                 >
                                                     <X size={16} className="text-red-500" />

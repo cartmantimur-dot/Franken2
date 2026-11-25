@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Gift, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
@@ -39,23 +40,27 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 p-4">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5YjhiZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-60" />
+        <div className="relative min-h-screen flex items-center justify-center bg-ink-50 p-4 overflow-hidden">
+            {/* Dezente Rosé-Flächen wie auf der Rechnung */}
+            <div aria-hidden className="pointer-events-none absolute -top-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-brand-100/60" />
+            <div aria-hidden className="pointer-events-none absolute -bottom-48 -right-32 w-[34rem] h-[34rem] rounded-full bg-brand-100/50" />
 
-            <div className="relative w-full max-w-md">
+            <div className="relative w-full max-w-[26rem]">
                 {/* Card */}
-                <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
+                <div className="bg-white rounded-3xl border border-ink-200/70 px-8 pb-8 pt-7 sm:px-10" style={{ boxShadow: "0 30px 80px -40px rgb(91 34 58 / 0.35)" }}>
                     {/* Logo & Title */}
-                    <div className="text-center mb-8">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-violet-500/25">
-                            <Gift className="w-8 h-8 text-white" />
-                        </div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                            Fräulein Franken
-                        </h1>
-                        <p className="text-gray-500 mt-1 dark:text-gray-400">
-                            Geschenke für dich
+                    <div className="text-center mb-7">
+                        <Image
+                            src="/logo-mark.png"
+                            alt=""
+                            width={176}
+                            height={176}
+                            priority
+                            className="mx-auto"
+                        />
+                        <h1 className="sr-only">Fräulein Franken – Geschenke für dich</h1>
+                        <p className="mt-3 font-display italic text-xl text-ink-600">
+                            Schön, dass du da bist.
                         </p>
                     </div>
 
@@ -66,7 +71,7 @@ export default function LoginPage() {
                                 E-Mail
                             </label>
                             <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-ink-400" />
                                 <input
                                     id="email"
                                     type="email"
@@ -85,7 +90,7 @@ export default function LoginPage() {
                                 Passwort
                             </label>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-ink-400" />
                                 <input
                                     id="password"
                                     type={showPassword ? "text" : "password"}
@@ -99,7 +104,7 @@ export default function LoginPage() {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-600"
                                 >
                                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                 </button>
@@ -109,7 +114,7 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="btn btn-primary w-full py-3"
+                            className="btn btn-primary btn-lg w-full"
                         >
                             {isLoading ? (
                                 <>
@@ -123,13 +128,13 @@ export default function LoginPage() {
                     </form>
 
                     {/* Footer */}
-                    <p className="text-center text-sm text-gray-500 mt-6 dark:text-gray-400">
+                    <p className="text-center text-sm text-ink-500 mt-6">
                         Noch kein Konto? Kontaktiere den Admin.
                     </p>
                 </div>
 
                 {/* Bottom Branding */}
-                <p className="text-center text-xs text-gray-400 mt-6 dark:text-gray-500">
+                <p className="text-center text-xs text-ink-400 mt-6">
                     © {new Date().getFullYear()} Fräulein Franken – Alle Rechte vorbehalten
                 </p>
             </div>
