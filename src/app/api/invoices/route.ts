@@ -58,11 +58,6 @@ export async function POST(request: Request) {
             });
         }
 
-        // Generate invoice number
-        const nextNumber = settings.invoiceCurrentNumber + 1;
-        const currentYear = new Date().getFullYear();
-        const invoiceNumber = `${settings.invoicePrefix}-${currentYear}-${String(nextNumber).padStart(4, "0")}`;
-
         // Calculate totals
         let subtotal = validated.items.reduce(
             (sum, item) => sum + item.unitPrice * item.quantity,
@@ -77,8 +72,33 @@ export async function POST(request: Request) {
         const vatAmount = settings.vatEnabled ? subtotal * (vatRate / 100) : 0;
         const total = subtotal + vatAmount;
 
-        // Create invoice with items in transaction
-        const invoice = await prisma.$transaction(async (tx) => {
+        const invoicePrefix = settings.invoicePrefix;
+        const currentYear = new Date().getFullYear();
+        const numberPrefix = `${invoicePrefix}-${currentYear}-`;
+
+        // Create invoice with items in transaction.
+        // The next number is the highest of the stored counter and the
+        // numbers already used this year, so a counter that is out of sync
+        // (e.g. after editing it in the settings) can no longer cause
+        // duplicate invoice numbers. On a race we retry with a fresh number.
+        const createInvoice = () => prisma.$transaction(async (tx) => {
+            const currentSettings = await tx.settings.findUnique({
+                where: { id: "main" },
+            });
+            const counter = currentSettings?.invoiceCurrentNumber ?? 0;
+
+            const existing = await tx.invoice.findMany({
+                where: { invoiceNumber: { startsWith: numberPrefix } },
+                select: { invoiceNumber: true },
+            });
+            const highestUsed = existing.reduce((max, inv) => {
+                const n = parseInt(inv.invoiceNumber.slice(numberPrefix.length), 10);
+                return Number.isFinite(n) && n > max ? n : max;
+            }, 0);
+
+            const nextNumber = Math.max(counter, highestUsed) + 1;
+            const invoiceNumber = `${numberPrefix}${String(nextNumber).padStart(4, "0")}`;
+
             // Update settings current number
             await tx.settings.update({
                 where: { id: "main" },
@@ -130,6 +150,20 @@ export async function POST(request: Request) {
 
             return newInvoice;
         });
+
+        let invoice;
+        for (let attempt = 1; ; attempt++) {
+            try {
+                invoice = await createInvoice();
+                break;
+            } catch (err) {
+                const isDuplicateNumber =
+                    typeof err === "object" &&
+                    err !== null &&
+                    (err as { code?: string }).code === "P2002";
+                if (!isDuplicateNumber || attempt >= 3) throw err;
+            }
+        }
 
         return NextResponse.json(invoice, { status: 201 });
     } catch (error) {
