@@ -71,7 +71,7 @@ export default function EinstellungenPage() {
     if (isLoading || !settings) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="spinner border-violet-600" />
+                <div className="spinner border-brand-600" />
             </div>
         );
     }
@@ -93,12 +93,12 @@ export default function EinstellungenPage() {
                 {/* Company Info */}
                 <div className="card">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-lg bg-violet-100 flex items-center justify-center dark:bg-violet-900/30">
-                            <Building2 className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+                        <div className="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center">
+                            <Building2 className="w-5 h-5 text-brand-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-semibold">Firmendaten</h2>
-                            <p className="text-sm text-gray-500">Diese Daten erscheinen auf deinen Rechnungen</p>
+                            <h2>Firmendaten</h2>
+                            <p className="text-sm text-ink-500">Diese Daten erscheinen auf deinen Rechnungen</p>
                         </div>
                     </div>
 
@@ -174,12 +174,12 @@ export default function EinstellungenPage() {
                 {/* Bank Info */}
                 <div className="card">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center dark:bg-emerald-900/30">
-                            <Receipt className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                        <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                            <Receipt className="w-5 h-5 text-emerald-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-semibold">Bankverbindung</h2>
-                            <p className="text-sm text-gray-500">Für Zahlungsinformationen auf Rechnungen</p>
+                            <h2>Bankverbindung</h2>
+                            <p className="text-sm text-ink-500">Für Zahlungsinformationen auf Rechnungen</p>
                         </div>
                     </div>
 
@@ -218,12 +218,12 @@ export default function EinstellungenPage() {
                 {/* Invoice Settings */}
                 <div className="card">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center dark:bg-blue-900/30">
-                            <Receipt className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                            <Receipt className="w-5 h-5 text-blue-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-semibold">Rechnungseinstellungen</h2>
-                            <p className="text-sm text-gray-500">Nummernkreis und Standardwerte</p>
+                            <h2>Rechnungseinstellungen</h2>
+                            <p className="text-sm text-ink-500">Nummernkreis und Standardwerte</p>
                         </div>
                     </div>
 
@@ -244,7 +244,7 @@ export default function EinstellungenPage() {
                                 type="number"
                                 value={new Date().getFullYear()}
                                 disabled
-                                className="input bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 cursor-not-allowed"
+                                className="input bg-ink-100 text-ink-500 cursor-not-allowed"
                                 title="Das Jahr wird bei jeder Rechnungserstellung automatisch berechnet"
                             />
                         </div>
@@ -258,7 +258,7 @@ export default function EinstellungenPage() {
                                 }
                                 className="input"
                             />
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-ink-500 mt-1">
                                 Nächste Rechnung: {settings.invoicePrefix}-{new Date().getFullYear()}-
                                 {String(settings.invoiceCurrentNumber + 1).padStart(4, "0")}
                             </p>
@@ -282,12 +282,12 @@ export default function EinstellungenPage() {
                 {/* VAT Settings */}
                 <div className="card">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center dark:bg-amber-900/30">
-                            <Percent className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                        <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
+                            <Percent className="w-5 h-5 text-amber-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-semibold">Umsatzsteuer</h2>
-                            <p className="text-sm text-gray-500">MwSt.-Einstellungen für Rechnungen</p>
+                            <h2>Umsatzsteuer</h2>
+                            <p className="text-sm text-ink-500">MwSt.-Einstellungen für Rechnungen</p>
                         </div>
                     </div>
 
@@ -298,7 +298,7 @@ export default function EinstellungenPage() {
                                 id="vatEnabled"
                                 checked={settings.vatEnabled}
                                 onChange={(e) => setSettings({ ...settings, vatEnabled: e.target.checked })}
-                                className="w-5 h-5 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                                className="w-5 h-5 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
                             />
                             <label htmlFor="vatEnabled" className="font-medium">
                                 Umsatzsteuer berechnen
@@ -306,8 +306,8 @@ export default function EinstellungenPage() {
                         </div>
 
                         {!settings.vatEnabled && (
-                            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800">
-                                <p className="text-sm text-amber-800 dark:text-amber-200">
+                            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                                <p className="text-sm text-amber-800">
                                     <strong>Kleinunternehmer-Regelung aktiv:</strong> Auf allen Rechnungen wird der
                                     Hinweis &quot;Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.&quot; angezeigt.
                                 </p>

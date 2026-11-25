@@ -44,15 +44,15 @@ export default function Modal({
                 className={`modal-content ${sizeClasses[size]} animate-fade-in`}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-start justify-between gap-4 mb-5">
+                    <h2 className="modal-title">
                         {title}
                     </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors dark:hover:bg-gray-800"
+                        className="-mr-2 -mt-1 p-2 rounded-full text-ink-400 hover:bg-ink-100 hover:text-ink-700 transition-colors"
                     >
-                        <X size={20} className="text-gray-500" />
+                        <X size={20} />
                     </button>
                 </div>
                 {children}

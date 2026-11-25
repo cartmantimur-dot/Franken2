@@ -207,15 +207,15 @@ export default function NeueRechnungPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Customer Section */}
                 <div className="card">
-                    <h2 className="text-lg font-semibold mb-4">Kunde</h2>
+                    <h2 className="mb-4">Kunde</h2>
                     {selectedCustomer ? (
                         <div className="flex items-start justify-between">
                             <div>
                                 <p className="font-medium">{selectedCustomer.name}</p>
                                 {selectedCustomer.company && (
-                                    <p className="text-gray-500">{selectedCustomer.company}</p>
+                                    <p className="text-ink-500">{selectedCustomer.company}</p>
                                 )}
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-ink-500">
                                     {selectedCustomer.address}, {selectedCustomer.zipCode} {selectedCustomer.city}
                                 </p>
                             </div>
@@ -238,7 +238,7 @@ export default function NeueRechnungPage() {
 
                 {/* Dates Section */}
                 <div className="card">
-                    <h2 className="text-lg font-semibold mb-4">Daten</h2>
+                    <h2 className="mb-4">Daten</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label className="label">Rechnungsdatum *</label>
@@ -275,7 +275,7 @@ export default function NeueRechnungPage() {
                 {/* Items Section */}
                 <div className="card">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold">Positionen</h2>
+                        <h2>Positionen</h2>
                         <Button type="button" variant="outline" size="sm" onClick={addItem}>
                             <Plus size={16} />
                             Position hinzufügen
@@ -286,7 +286,7 @@ export default function NeueRechnungPage() {
                         {items.map((item, index) => (
                             <div
                                 key={index}
-                                className="grid grid-cols-12 gap-3 items-end p-4 bg-gray-50 rounded-lg dark:bg-gray-800/50"
+                                className="grid grid-cols-12 gap-3 items-end p-4 bg-ink-50 rounded-lg"
                             >
                                 <div className="col-span-12 md:col-span-3">
                                     <label className="label">Produkt (optional)</label>
@@ -344,7 +344,7 @@ export default function NeueRechnungPage() {
                                     <button
                                         type="button"
                                         onClick={() => removeItem(index)}
-                                        className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30"
+                                        className="p-2 rounded-lg hover:bg-red-100"
                                     >
                                         <Trash2 size={18} className="text-red-500" />
                                     </button>
@@ -357,7 +357,7 @@ export default function NeueRechnungPage() {
                 {/* Extras & Totals */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="card">
-                        <h2 className="text-lg font-semibold mb-4">Zusatzoptionen</h2>
+                        <h2 className="mb-4">Zusatzoptionen</h2>
                         <div className="space-y-4">
                             <div>
                                 <label className="label">Rabatt (€)</label>
@@ -399,27 +399,27 @@ export default function NeueRechnungPage() {
                     </div>
 
                     <div className="card">
-                        <h2 className="text-lg font-semibold mb-4">Zusammenfassung</h2>
+                        <h2 className="mb-4">Zusammenfassung</h2>
                         <div className="space-y-3">
                             <div className="flex justify-between">
-                                <span className="text-gray-500">Zwischensumme</span>
+                                <span className="text-ink-500">Zwischensumme</span>
                                 <span>{formatCurrency(subtotal)}</span>
                             </div>
                             {settings?.vatEnabled && (
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">MwSt. ({vatRate}%)</span>
+                                    <span className="text-ink-500">MwSt. ({vatRate}%)</span>
                                     <span>{formatCurrency(vatAmount)}</span>
                                 </div>
                             )}
                             {!settings?.vatEnabled && (
-                                <p className="text-sm text-gray-500 italic">
+                                <p className="text-sm text-ink-500 italic">
                                     Gemäß § 19 UStG wird keine MwSt. berechnet
                                 </p>
                             )}
-                            <div className="border-t pt-3 dark:border-gray-700">
+                            <div className="border-t pt-3">
                                 <div className="flex justify-between text-lg font-semibold">
                                     <span>Gesamtbetrag</span>
-                                    <span className="text-violet-600">{formatCurrency(total)}</span>
+                                    <span className="text-brand-600">{formatCurrency(total)}</span>
                                 </div>
                             </div>
                         </div>
@@ -447,7 +447,7 @@ export default function NeueRechnungPage() {
             >
                 <div className="space-y-4">
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-400" />
                         <input
                             type="text"
                             placeholder="Suchen..."
@@ -458,18 +458,18 @@ export default function NeueRechnungPage() {
                     </div>
                     <div className="max-h-64 overflow-y-auto space-y-2">
                         {filteredCustomers.length === 0 ? (
-                            <p className="text-center text-gray-500 py-4">Keine Kunden gefunden</p>
+                            <p className="text-center text-ink-500 py-4">Keine Kunden gefunden</p>
                         ) : (
                             filteredCustomers.map((customer) => (
                                 <button
                                     key={customer.id}
                                     type="button"
                                     onClick={() => selectCustomer(customer)}
-                                    className="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                    className="w-full text-left p-3 rounded-lg hover:bg-ink-100 transition-colors"
                                 >
                                     <p className="font-medium">{customer.name}</p>
-                                    {customer.company && <p className="text-sm text-gray-500">{customer.company}</p>}
-                                    <p className="text-sm text-gray-500">
+                                    {customer.company && <p className="text-sm text-ink-500">{customer.company}</p>}
+                                    <p className="text-sm text-ink-500">
                                         {customer.zipCode} {customer.city}
                                     </p>
                                 </button>

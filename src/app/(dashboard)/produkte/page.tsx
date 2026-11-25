@@ -197,7 +197,7 @@ export default function ProduktePage() {
             {/* Search */}
             <div className="mb-6">
                 <div className="relative max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-400" />
                     <input
                         type="text"
                         placeholder="Suchen nach Name, SKU..."
@@ -209,7 +209,7 @@ export default function ProduktePage() {
             </div>
 
             {/* Products Table */}
-            <div className="table-container bg-white dark:bg-gray-900">
+            <div className="table-container bg-white">
                 <table className="table">
                     <thead>
                         <tr>
@@ -224,13 +224,13 @@ export default function ProduktePage() {
                     <tbody>
                         {isLoading ? (
                             <tr>
-                                <td colSpan={6} className="text-center py-8 text-gray-500">
+                                <td colSpan={6} className="text-center py-8 text-ink-500">
                                     Laden...
                                 </td>
                             </tr>
                         ) : products.length === 0 ? (
                             <tr>
-                                <td colSpan={6} className="text-center py-8 text-gray-500">
+                                <td colSpan={6} className="text-center py-8 text-ink-500">
                                     <Package className="w-12 h-12 mx-auto mb-2 opacity-50" />
                                     Keine Produkte gefunden
                                 </td>
@@ -240,29 +240,29 @@ export default function ProduktePage() {
                                 <tr key={product.id}>
                                     <td>
                                         <div>
-                                            <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
+                                            <p className="font-medium text-ink-900">{product.name}</p>
                                             {product.sku && (
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">SKU: {product.sku}</p>
+                                                <p className="text-sm text-ink-500">SKU: {product.sku}</p>
                                             )}
                                         </div>
                                     </td>
-                                    <td className="text-gray-600 dark:text-gray-400">
+                                    <td className="text-ink-600">
                                         {product.category || "-"}
                                     </td>
-                                    <td className="text-right text-gray-600 dark:text-gray-400">
+                                    <td className="text-right text-ink-600">
                                         {formatCurrency(Number(product.purchasePrice))}
                                     </td>
-                                    <td className="text-right font-medium text-gray-900 dark:text-white">
+                                    <td className="text-right font-medium text-ink-900">
                                         {formatCurrency(Number(product.sellingPrice))}
                                     </td>
                                     <td className="text-center">
                                         <button
                                             onClick={() => openStockModal(product)}
                                             className={`font-medium px-3 py-1 rounded-full text-sm ${product.stockCurrent === 0
-                                                    ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                                                    ? "bg-red-100 text-red-700"
                                                     : product.stockCurrent <= product.stockMinimum
-                                                        ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
-                                                        : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                                                        ? "bg-amber-100 text-amber-700"
+                                                        : "bg-emerald-100 text-emerald-700"
                                                 }`}
                                         >
                                             {product.stockCurrent === 0 && (
@@ -275,13 +275,13 @@ export default function ProduktePage() {
                                         <div className="flex justify-end gap-2">
                                             <button
                                                 onClick={() => openEditModal(product)}
-                                                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                                                className="p-2 rounded-lg hover:bg-ink-100"
                                             >
-                                                <Edit2 size={16} className="text-gray-500" />
+                                                <Edit2 size={16} className="text-ink-500" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(product)}
-                                                className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
+                                                className="p-2 rounded-lg hover:bg-red-50"
                                             >
                                                 <Trash2 size={16} className="text-red-500" />
                                             </button>
@@ -430,7 +430,7 @@ export default function ProduktePage() {
             >
                 <form onSubmit={handleStockSubmit} className="space-y-4">
                     <div>
-                        <p className="text-sm text-gray-500 mb-4">
+                        <p className="text-sm text-ink-500 mb-4">
                             Aktueller Bestand: <span className="font-semibold">{stockProduct?.stockCurrent} Stück</span>
                         </p>
                     </div>

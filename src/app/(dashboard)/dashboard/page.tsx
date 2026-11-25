@@ -99,6 +99,15 @@ export default async function DashboardPage() {
         <div className="animate-fade-in">
             {/* Header */}
             <div className="page-header">
+                <p className="eyebrow mb-2">
+                    {new Date().toLocaleDateString("de-DE", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        timeZone: "Europe/Berlin",
+                    })}
+                </p>
                 <h1 className="page-title">Dashboard</h1>
                 <p className="page-subtitle">
                     Willkommen bei Fräulein Franken – Geschenke für dich
@@ -113,8 +122,8 @@ export default async function DashboardPage() {
                             <p className="stat-value">{stats.totalProducts}</p>
                             <p className="stat-label">Produkte gesamt</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-violet-100 flex items-center justify-center dark:bg-violet-900/30">
-                            <Package className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+                        <div className="w-11 h-11 shrink-0 rounded-full bg-brand-50 ring-1 ring-inset ring-brand-100 flex items-center justify-center">
+                            <Package strokeWidth={1.75} className="w-5 h-5 text-brand-600" />
                         </div>
                     </div>
                 </div>
@@ -127,13 +136,13 @@ export default async function DashboardPage() {
                             </p>
                             <p className="stat-label">Niedriger Bestand</p>
                         </div>
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stats.lowStockProducts > 0
-                                ? "bg-amber-100 dark:bg-amber-900/30"
-                                : "bg-emerald-100 dark:bg-emerald-900/30"
+                        <div className={`w-11 h-11 shrink-0 rounded-full ring-1 ring-inset flex items-center justify-center ${stats.lowStockProducts > 0
+                                ? "bg-amber-50 ring-amber-100"
+                                : "bg-emerald-50 ring-emerald-100"
                             }`}>
-                            <AlertTriangle className={`w-6 h-6 ${stats.lowStockProducts > 0
-                                    ? "text-amber-600 dark:text-amber-400"
-                                    : "text-emerald-600 dark:text-emerald-400"
+                            <AlertTriangle strokeWidth={1.75} className={`w-5 h-5 ${stats.lowStockProducts > 0
+                                    ? "text-amber-600"
+                                    : "text-emerald-600"
                                 }`} />
                         </div>
                     </div>
@@ -145,8 +154,8 @@ export default async function DashboardPage() {
                             <p className="stat-value">{stats.openInvoices}</p>
                             <p className="stat-label">Offene Rechnungen</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center dark:bg-blue-900/30">
-                            <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        <div className="w-11 h-11 shrink-0 rounded-full bg-blue-50 ring-1 ring-inset ring-blue-100 flex items-center justify-center">
+                            <FileText strokeWidth={1.75} className="w-5 h-5 text-blue-600" />
                         </div>
                     </div>
                 </div>
@@ -157,8 +166,8 @@ export default async function DashboardPage() {
                             <p className="stat-value">{formatCurrency(stats.totalRevenue)}</p>
                             <p className="stat-label">Gesamtumsatz (bezahlt)</p>
                         </div>
-                        <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center dark:bg-emerald-900/30">
-                            <TrendingUp className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                        <div className="w-11 h-11 shrink-0 rounded-full bg-emerald-50 ring-1 ring-inset ring-emerald-100 flex items-center justify-center">
+                            <TrendingUp strokeWidth={1.75} className="w-5 h-5 text-emerald-600" />
                         </div>
                     </div>
                 </div>
@@ -169,19 +178,19 @@ export default async function DashboardPage() {
                 {/* Low Stock Products */}
                 <div className="card">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        <h2>
                             Niedriger Bestand
                         </h2>
                         <Link
                             href="/produkte"
-                            className="text-sm text-violet-600 hover:text-violet-700 flex items-center gap-1 dark:text-violet-400"
+                            className="text-sm font-medium text-brand-600 hover:text-brand-800 flex items-center gap-1 transition-colors"
                         >
                             Alle anzeigen <ArrowRight size={16} />
                         </Link>
                     </div>
 
                     {lowStockProducts.length === 0 ? (
-                        <p className="text-gray-500 text-sm py-4 text-center dark:text-gray-400">
+                        <p className="text-ink-500 text-sm py-4 text-center">
                             Alle Produkte haben ausreichend Bestand ✓
                         </p>
                     ) : (
@@ -189,24 +198,24 @@ export default async function DashboardPage() {
                             {lowStockProducts.map((product) => (
                                 <div
                                     key={product.id}
-                                    className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50"
+                                    className="flex items-center justify-between px-4 py-3 rounded-xl bg-ink-50/70"
                                 >
                                     <div>
-                                        <p className="font-medium text-gray-900 dark:text-white">
+                                        <p className="font-medium text-ink-900">
                                             {product.name}
                                         </p>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        <p className="text-sm text-ink-500">
                                             {product.category || "Ohne Kategorie"}
                                         </p>
                                     </div>
                                     <div className="text-right">
                                         <p className={`font-semibold ${product.stockCurrent === 0
-                                                ? "text-red-600 dark:text-red-400"
-                                                : "text-amber-600 dark:text-amber-400"
+                                                ? "text-red-600"
+                                                : "text-amber-600"
                                             }`}>
                                             {product.stockCurrent} Stück
                                         </p>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                        <p className="text-xs text-ink-500">
                                             Min: {product.stockMinimum}
                                         </p>
                                     </div>
@@ -219,19 +228,19 @@ export default async function DashboardPage() {
                 {/* Recent Invoices */}
                 <div className="card">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        <h2>
                             Letzte Rechnungen
                         </h2>
                         <Link
                             href="/rechnungen"
-                            className="text-sm text-violet-600 hover:text-violet-700 flex items-center gap-1 dark:text-violet-400"
+                            className="text-sm font-medium text-brand-600 hover:text-brand-800 flex items-center gap-1 transition-colors"
                         >
                             Alle anzeigen <ArrowRight size={16} />
                         </Link>
                     </div>
 
                     {recentInvoices.length === 0 ? (
-                        <p className="text-gray-500 text-sm py-4 text-center dark:text-gray-400">
+                        <p className="text-ink-500 text-sm py-4 text-center">
                             Noch keine Rechnungen vorhanden
                         </p>
                     ) : (
@@ -240,21 +249,21 @@ export default async function DashboardPage() {
                                 <Link
                                     key={invoice.id}
                                     href={`/rechnungen/${invoice.id}`}
-                                    className="flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors dark:bg-gray-800/50 dark:hover:bg-gray-800"
+                                    className="flex items-center justify-between px-4 py-3 rounded-xl bg-ink-50/70 hover:bg-brand-50/60 transition-colors"
                                 >
                                     <div>
-                                        <p className="font-medium text-gray-900 dark:text-white">
+                                        <p className="font-medium text-ink-900">
                                             {invoice.invoiceNumber}
                                         </p>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        <p className="text-sm text-ink-500">
                                             {invoice.customer.name}
                                         </p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-semibold text-gray-900 dark:text-white">
+                                        <p className="font-semibold text-ink-900">
                                             {formatCurrency(Number(invoice.total))}
                                         </p>
-                                        <span className={`badge ${getStatusBadge(invoice.status)}`}>
+                                        <span className={`badge mt-1 ${getStatusBadge(invoice.status)}`}>
                                             {invoice.status}
                                         </span>
                                     </div>
@@ -266,32 +275,32 @@ export default async function DashboardPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="mt-8 p-6 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl">
+            <div className="mt-8 rounded-2xl border border-brand-100 bg-brand-50 p-6 md:p-7">
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div className="text-white">
-                        <h3 className="text-lg font-semibold">Schnellaktionen</h3>
-                        <p className="text-violet-100">
+                    <div>
+                        <h3 className="font-display text-2xl font-semibold text-ink-900">Schnellaktionen</h3>
+                        <p className="text-[15px] text-ink-600 mt-0.5">
                             Erstelle neue Einträge oder verwalte dein Geschäft
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-3">
                         <Link
                             href="/produkte?new=true"
-                            className="btn bg-white text-violet-600 hover:bg-violet-50"
+                            className="btn bg-white text-brand-700 border border-brand-200 hover:border-brand-300 hover:bg-white shadow-[0_1px_2px_rgb(91_34_58/0.08)]"
                         >
                             <Package size={18} />
                             Neues Produkt
                         </Link>
                         <Link
                             href="/kunden?new=true"
-                            className="btn bg-white text-violet-600 hover:bg-violet-50"
+                            className="btn bg-white text-brand-700 border border-brand-200 hover:border-brand-300 hover:bg-white shadow-[0_1px_2px_rgb(91_34_58/0.08)]"
                         >
                             <Users size={18} />
                             Neuer Kunde
                         </Link>
                         <Link
                             href="/rechnungen/neu"
-                            className="btn bg-white text-violet-600 hover:bg-violet-50"
+                            className="btn bg-white text-brand-700 border border-brand-200 hover:border-brand-300 hover:bg-white shadow-[0_1px_2px_rgb(91_34_58/0.08)]"
                         >
                             <FileText size={18} />
                             Neue Rechnung

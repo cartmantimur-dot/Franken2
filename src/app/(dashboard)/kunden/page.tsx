@@ -156,7 +156,7 @@ export default function KundenPage() {
             {/* Search */}
             <div className="mb-6">
                 <div className="relative max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-400" />
                     <input
                         type="text"
                         placeholder="Suchen nach Name, Firma, E-Mail..."
@@ -168,7 +168,7 @@ export default function KundenPage() {
             </div>
 
             {/* Customers Table */}
-            <div className="table-container bg-white dark:bg-gray-900">
+            <div className="table-container bg-white">
                 <table className="table">
                     <thead>
                         <tr>
@@ -182,13 +182,13 @@ export default function KundenPage() {
                     <tbody>
                         {isLoading ? (
                             <tr>
-                                <td colSpan={5} className="text-center py-8 text-gray-500">
+                                <td colSpan={5} className="text-center py-8 text-ink-500">
                                     Laden...
                                 </td>
                             </tr>
                         ) : customers.length === 0 ? (
                             <tr>
-                                <td colSpan={5} className="text-center py-8 text-gray-500">
+                                <td colSpan={5} className="text-center py-8 text-ink-500">
                                     <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
                                     Keine Kunden gefunden
                                 </td>
@@ -198,22 +198,22 @@ export default function KundenPage() {
                                 <tr key={customer.id}>
                                     <td>
                                         <div>
-                                            <p className="font-medium text-gray-900 dark:text-white">{customer.name}</p>
+                                            <p className="font-medium text-ink-900">{customer.name}</p>
                                             {customer.company && (
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">{customer.company}</p>
+                                                <p className="text-sm text-ink-500">{customer.company}</p>
                                             )}
                                         </div>
                                     </td>
-                                    <td className="text-gray-600 dark:text-gray-400">
+                                    <td className="text-ink-600">
                                         <p>{customer.address}</p>
                                         <p>{customer.zipCode} {customer.city}</p>
                                     </td>
-                                    <td className="text-gray-600 dark:text-gray-400">
+                                    <td className="text-ink-600">
                                         {customer.email && <p>{customer.email}</p>}
                                         {customer.phone && <p>{customer.phone}</p>}
                                     </td>
                                     <td className="text-center">
-                                        <span className="inline-flex items-center gap-1 text-gray-600 dark:text-gray-400">
+                                        <span className="inline-flex items-center gap-1 text-ink-600">
                                             <FileText size={14} />
                                             {customer._count?.invoices || 0}
                                         </span>
@@ -222,13 +222,13 @@ export default function KundenPage() {
                                         <div className="flex justify-end gap-2">
                                             <button
                                                 onClick={() => openEditModal(customer)}
-                                                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                                                className="p-2 rounded-lg hover:bg-ink-100"
                                             >
-                                                <Edit2 size={16} className="text-gray-500" />
+                                                <Edit2 size={16} className="text-ink-500" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(customer)}
-                                                className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
+                                                className="p-2 rounded-lg hover:bg-red-50"
                                             >
                                                 <Trash2 size={16} className="text-red-500" />
                                             </button>
